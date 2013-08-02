@@ -1,0 +1,24 @@
+{
+    "name": "vlucas/hyperspan",
+    "version": "1.0.0",
+    "type": "library",
+    "description": "Build a Hypermedia API response once and return it in multiple formats",
+    "keywords": ["api", "hypermedia", "hypermedia api"],
+    "homepage": "http://github.com/vlucas/hyperspan",
+    "license" : "BSD",
+    "authors" : [
+        {
+            "name": "Vance Lucas",
+            "email": "vance@vancelucas.com",
+            "homepage": "http://www.vancelucas.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Hyperspan": "src/"
+        }
+    }
+}
