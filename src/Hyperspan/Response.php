@@ -6,8 +6,30 @@ namespace Hyperspan;
  */
 class Response
 {
+    protected $_properties = array();
     protected $_links = array();
     protected $_actions = array();
+
+    /**
+     * Get array of properties
+     *
+     * @return array
+     */
+    public function getProperties()
+    {
+        return $this->_properties;
+    }
+
+    /**
+     * Set array of properties
+     *
+     * @return array
+     */
+    public function setProperties(array $properties)
+    {
+        $this->_properties = $properties;
+        return $this;
+    }
 
     /**
      * Get array of links
@@ -53,6 +75,10 @@ class Response
     public function toArray()
     {
         $res = array();
+
+        if($this->_properties) {
+            $res['properties'] = $this->getProperties();
+        }
 
         if($this->_links) {
             $res['links'] = array();

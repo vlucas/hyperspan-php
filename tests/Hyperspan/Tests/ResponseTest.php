@@ -44,5 +44,24 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($res->toArray(), $expected);
     }
+
+    public function testSetProperties()
+    {
+        $res = new Response();
+        $res->setProperties(array(
+            'title' => 'Add Item',
+            'foo' => 'bar',
+            'bar' => 'baz'
+        ));
+
+        $expected = array(
+            'properties' => array(
+                'title' => 'Add Item',
+                'foo' => 'bar',
+                'bar' => 'baz'
+            )
+        );
+        $this->assertEquals($res->toArray(), $expected);
+    }
 }
 
