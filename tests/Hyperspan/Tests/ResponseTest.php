@@ -23,7 +23,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 'bar' => 'baz'
             )
         );
-        $this->assertEquals($res->toArray(), $expected);
+        $this->assertEquals($expected, $res->toArray());
     }
 
     public function testAddLink()
@@ -39,7 +39,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals($res->toArray(), $expected);
+        $this->assertEquals($expected, $res->toArray());
     }
 
     public function testAddAction()
@@ -61,7 +61,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals($res->toArray(), $expected);
+        $this->assertEquals($expected, $res->toArray());
     }
 
     public function testAddItem()
@@ -82,7 +82,33 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals($res->toArray(), $expected);
+        $this->assertEquals($expected, $res->toArray());
+    }
+
+    public function testAddItemNestedResponse()
+    {
+        $res = new Response();
+        $res->setProperties(array(
+                'foo' => 'bar'
+            ))
+            ->addLink('self', '/test');
+
+        $res2 = clone $res;
+        $res2->addItem($res);
+
+        $expected = array(
+            'properties' => array(
+                'foo' => 'bar'
+            ),
+            'links' => array(
+                array(
+                    'rel' => 'self',
+                    'href' => '/test'
+                )
+            )
+        );
+        $expected['entities'][] = $expected;
+        $this->assertEquals($expected, $res2->toArray());
     }
 }
 

@@ -83,8 +83,14 @@ class Response
     /**
      * Add item to collection
      */
-    public function addItem(array $item)
+    public function addItem($item)
     {
+        if($item instanceof self) {
+            $item = $item->toArray();
+        } elseif(!is_array($item)) {
+            throw new \InvalidArgumentException("Argument 1 passed to " . __METHOD__ . " must be of the type array or " . __CLASS__ . ", " . gettype($item) . " given");
+        }
+
         $this->_items[] = $item;
         return $this;
     }
