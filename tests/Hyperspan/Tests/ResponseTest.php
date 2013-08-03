@@ -7,6 +7,25 @@ use Hyperspan\Response;
  */
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
+    public function testSetProperties()
+    {
+        $res = new Response();
+        $res->setProperties(array(
+            'title' => 'Add Item',
+            'foo' => 'bar',
+            'bar' => 'baz'
+        ));
+
+        $expected = array(
+            'properties' => array(
+                'title' => 'Add Item',
+                'foo' => 'bar',
+                'bar' => 'baz'
+            )
+        );
+        $this->assertEquals($res->toArray(), $expected);
+    }
+
     public function testAddLink()
     {
         $res = new Response();
@@ -45,20 +64,22 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($res->toArray(), $expected);
     }
 
-    public function testSetProperties()
+    public function testAddItem()
     {
         $res = new Response();
-        $res->setProperties(array(
-            'title' => 'Add Item',
-            'foo' => 'bar',
-            'bar' => 'baz'
+        $res->addItem(array(
+            'some' => 'value',
+            'something' => 'else',
+            'another' => 'one'
         ));
 
         $expected = array(
-            'properties' => array(
-                'title' => 'Add Item',
-                'foo' => 'bar',
-                'bar' => 'baz'
+            'entities' => array(
+                array(
+                    'some' => 'value',
+                    'something' => 'else',
+                    'another' => 'one'
+                )
             )
         );
         $this->assertEquals($res->toArray(), $expected);

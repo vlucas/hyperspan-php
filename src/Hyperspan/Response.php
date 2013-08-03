@@ -9,6 +9,7 @@ class Response
     protected $_properties = array();
     protected $_links = array();
     protected $_actions = array();
+    protected $_items = array();
 
     /**
      * Get array of properties
@@ -70,6 +71,25 @@ class Response
     }
 
     /**
+     * Get array of items/entities
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->_items;
+    }
+
+    /**
+     * Add item to collection
+     */
+    public function addItem(array $item)
+    {
+        $this->_items[] = $item;
+        return $this;
+    }
+
+    /**
      * Output response as array
      */
     public function toArray()
@@ -91,6 +111,13 @@ class Response
             $res['actions'] = array();
             foreach($this->getActions() as $name => $action) {
                 $res['actions'][] = array_merge(array('name' => $name), $action);
+            }
+        }
+
+        if($this->_items) {
+            $res['entities'] = array();
+            foreach($this->getItems() as $item) {
+                $res['entities'][] = $item;
             }
         }
 
