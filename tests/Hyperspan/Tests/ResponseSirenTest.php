@@ -138,9 +138,11 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'entities' => array(
                 array(
-                    'some' => 'value',
-                    'something' => 'else',
-                    'another' => 'one'
+                    'properties' => array(
+                        'some' => 'value',
+                        'something' => 'else',
+                        'another' => 'one'
+                    )
                 )
             )
         );
