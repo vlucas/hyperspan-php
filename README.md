@@ -37,7 +37,6 @@ The following code:
 $res = new Hyperspan\Response();
 $res->title = 'Siren Sample JSON Response with Hyperspan';
 $res->setProperties(array(
-        'title' => 'Add Item',
         'foo' => 'bar',
         'bar' => 'baz'
     ));
@@ -45,7 +44,16 @@ $res->setProperties(array(
     ->addAction('add-item', array(
         'title' => 'Add Item',
         'method' => 'POST',
-        'href' => '/items'
+        'href' => '/items',
+        'fields' => array(
+            array('name' => 'name', 'type' => 'string'),
+            array('name' => 'body', 'type' => 'text')
+        )
+    ))
+    ->addItem(array(
+        'some' => true,
+        'something' => 'else',
+        'three' => 3
     ));
 
 $format = new Hyperspan\Formatter\Siren($res);
@@ -57,22 +65,34 @@ echo $format->toJson();
 Will output the following JSON structure in [Siren](https://github.com/kevinswiber/siren).
 ```
 {
-  "title": [ "order" ],
+  "title": "Siren Sample JSON Response with Hyperspan",
   "properties": {
-    "orderNumber": 42,
-    "itemCount": 3,
-    "status": "pending"
+    "foo": "bar",
+    "bar": "baz"
   },
+  "entities": [
+    {
+      "properties": {
+        "some": true,
+        "something": "else",
+        "three": 3
+      }
+    }
+  ],
   "actions": [
     {
       "name": "add-item",
       "title": "Add Item",
       "method": "POST",
-      "href": "http://api.x.io/orders/42/items"
+      "href": "/items",
+      "fields": [
+        { "name": "name", "type": "string" },
+        { "name": "body", "type": "text" }
+      ]
     }
   ],
   "links": [
-    { "rel": [ "self" ], "href": "http://localhost/foo/bar" },
+    { "rel": [ "self" ], "href": "http://localhost/foo/bar" }
   ]
 }
 ```
