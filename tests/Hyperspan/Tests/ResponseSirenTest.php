@@ -1,11 +1,12 @@
 <?php
 namespace Hyperspan\Tests;
 use Hyperspan\Response;
+use Hyperspan\Formatter;
 
 /**
  * @backupGlobals disabled
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseSirenTest extends \PHPUnit_Framework_TestCase
 {
     public function testSetProperties()
     {
@@ -23,7 +24,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 'bar' => 'baz'
             )
         );
-        $this->assertEquals($expected, $res->toArray());
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
     }
 
     public function testAddLink()
@@ -39,7 +42,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals($expected, $res->toArray());
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
     }
 
     public function testAddAction()
@@ -61,7 +66,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals($expected, $res->toArray());
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
     }
 
     public function testAddItem()
@@ -82,7 +89,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->assertEquals($expected, $res->toArray());
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
     }
 
     public function testAddItemNestedResponse()
@@ -108,7 +117,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
             )
         );
         $expected['entities'][] = $expected;
-        $this->assertEquals($expected, $res2->toArray());
+
+        $format = new Formatter\Siren($res2);
+        $this->assertEquals($expected, $format->toArray());
     }
 }
 

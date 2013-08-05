@@ -2,7 +2,7 @@
 namespace Hyperspan;
 
 /**
- * @backupGlobals disabled
+ * Hyperspan Response Builder
  */
 class Response
 {
@@ -85,49 +85,8 @@ class Response
      */
     public function addItem($item)
     {
-        if($item instanceof self) {
-            $item = $item->toArray();
-        } elseif(!is_array($item)) {
-            throw new \InvalidArgumentException("Argument 1 passed to " . __METHOD__ . " must be of the type array or " . __CLASS__ . ", " . gettype($item) . " given");
-        }
-
         $this->_items[] = $item;
         return $this;
-    }
-
-    /**
-     * Output response as array
-     */
-    public function toArray()
-    {
-        $res = array();
-
-        if($this->_properties) {
-            $res['properties'] = $this->getProperties();
-        }
-
-        if($this->_links) {
-            $res['links'] = array();
-            foreach($this->getLinks() as $rel => $link) {
-                $res['links'][] = array('rel' => $rel, 'href' => $link);
-            }
-        }
-
-        if($this->_actions) {
-            $res['actions'] = array();
-            foreach($this->getActions() as $name => $action) {
-                $res['actions'][] = array_merge(array('name' => $name), $action);
-            }
-        }
-
-        if($this->_items) {
-            $res['entities'] = array();
-            foreach($this->getItems() as $item) {
-                $res['entities'][] = $item;
-            }
-        }
-
-        return $res;
     }
 }
 
