@@ -6,10 +6,37 @@ namespace Hyperspan;
  */
 class Response
 {
+    protected $_data = array();
     protected $_properties = array();
     protected $_links = array();
     protected $_actions = array();
     protected $_items = array();
+
+    /**
+     * Set base property
+     */
+    public function __set($name, $value)
+    {
+        $this->_data[$name] = $value;
+    }
+
+    /**
+     * Get base property
+     */
+    public function __get($name)
+    {
+        return $this->_data[$name];
+    }
+
+    /**
+     * Get array of set data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
 
     /**
      * Get array of properties
@@ -22,9 +49,20 @@ class Response
     }
 
     /**
+     * Set single of property
+     *
+     * @return self
+     */
+    public function setProperty($name, $value)
+    {
+        $this->_properties[$name] = $value;
+        return $this;
+    }
+
+    /**
      * Set array of properties
      *
-     * @return array
+     * @return self
      */
     public function setProperties(array $properties)
     {

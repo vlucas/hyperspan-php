@@ -8,6 +8,39 @@ use Hyperspan\Formatter;
  */
 class ResponseSirenTest extends \PHPUnit_Framework_TestCase
 {
+    public function testSet()
+    {
+        $res = new Response();
+        $res->title = 'Testing Title';
+
+        $expected = array(
+            'title' => 'Testing Title'
+        );
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
+    }
+
+    public function testSetOverridesAnyKey()
+    {
+        $res = new Response();
+        $res->properties = array('foo' => 'bar');
+        $res->setProperties(array(
+            'title' => 'Add Item',
+            'foo' => 'bar',
+            'bar' => 'baz'
+        ));
+
+        $expected = array(
+            'properties' => array(
+                'foo' => 'bar'
+            )
+        );
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
+    }
+
     public function testSetProperties()
     {
         $res = new Response();
@@ -38,6 +71,28 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
             'links' => array(
                 array(
                     'rel' => 'self',
+                    'href' => 'http://localhost/foo/bar'
+                )
+            )
+        );
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
+    }
+
+    public function testAddLinkArray()
+    {
+        $res = new Response();
+        $res->addLink('self', array(
+            'class' => array('foo', 'bar'),
+            'href' => 'http://localhost/foo/bar'
+        ));
+
+        $expected = array(
+            'links' => array(
+                array(
+                    'rel' => 'self',
+                    'class' => array('foo', 'bar'),
                     'href' => 'http://localhost/foo/bar'
                 )
             )

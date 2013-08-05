@@ -21,7 +21,11 @@ class Siren extends Base
         if($links = $this->_response->getLinks()) {
             $res['links'] = array();
             foreach($links as $rel => $link) {
-                $res['links'][] = array('rel' => $rel, 'href' => $link);
+                if(is_array($link)) {
+                    $res['links'][] = array_merge(array('rel' => $rel), $link);
+                } else {
+                    $res['links'][] = array('rel' => $rel, 'href' => $link);
+                }
             }
         }
 
@@ -43,6 +47,10 @@ class Siren extends Base
                 }
                 $res['entities'][] = $item;
             }
+        }
+
+        if($data = $this->_response->getData()) {
+            $res = array_merge($res, $data);
         }
 
         return $res;
