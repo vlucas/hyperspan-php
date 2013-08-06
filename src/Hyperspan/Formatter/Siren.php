@@ -47,9 +47,9 @@ class Siren extends Base
             $res['links'] = array();
             foreach($links as $rel => $link) {
                 if(is_array($link)) {
-                    $res['links'][] = array_merge(array('rel' => $rel), $link);
+                    $res['links'][] = array_merge(array('rel' => array($rel)), $link);
                 } else {
-                    $res['links'][] = array('rel' => $rel, 'href' => $link);
+                    $res['links'][] = array('rel' => array($rel), 'href' => $link);
                 }
             }
         }

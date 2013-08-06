@@ -70,7 +70,7 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'links' => array(
                 array(
-                    'rel' => 'self',
+                    'rel' => array('self'),
                     'href' => 'http://localhost/foo/bar'
                 )
             )
@@ -91,7 +91,7 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
         $expected = array(
             'links' => array(
                 array(
-                    'rel' => 'self',
+                    'rel' => array('self'),
                     'class' => array('foo', 'bar'),
                     'href' => 'http://localhost/foo/bar'
                 )
@@ -168,7 +168,7 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
             ),
             'links' => array(
                 array(
-                    'rel' => 'self',
+                    'rel' => array('self'),
                     'href' => '/test'
                 )
             )
