@@ -1,6 +1,6 @@
 {
     "name": "vlucas/hyperspan",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "type": "library",
     "description": "Build a Hypermedia API response once and return it in multiple formats",
     "keywords": ["api", "hypermedia", "hypermedia api", "siren", "siren json", "hal", "collection json"],

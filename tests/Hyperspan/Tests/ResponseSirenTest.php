@@ -102,6 +102,26 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $format->toArray());
     }
 
+    public function testRemoveLink()
+    {
+        $res = new Response();
+        $res->addLink('self', 'http://localhost/foo/bar');
+        $res->addLink('next', 'http://localhost/foo/bar?page=2');
+        $res->removeLink('self');
+
+        $expected = array(
+            'links' => array(
+                array(
+                    'rel' => array('next'),
+                    'href' => 'http://localhost/foo/bar?page=2'
+                )
+            )
+        );
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
+    }
+
     public function testAddAction()
     {
         $res = new Response();
@@ -110,6 +130,36 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
             'method' => 'POST',
             'href' => '/post'
         ));
+
+        $expected = array(
+            'actions' => array(
+                array(
+                    'name' => 'add-item',
+                    'title' => 'Add Item',
+                    'method' => 'POST',
+                    'href' => '/post'
+                )
+            )
+        );
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
+    }
+
+    public function testRemoveAction()
+    {
+        $res = new Response();
+        $res->addAction('add-item', array(
+            'title' => 'Add Item',
+            'method' => 'POST',
+            'href' => '/post'
+        ));
+        $res->addAction('delete-item', array(
+            'title' => 'Delete Item',
+            'method' => 'DELETE',
+            'href' => '/post/123'
+        ));
+        $res->removeAction('delete-item');
 
         $expected = array(
             'actions' => array(

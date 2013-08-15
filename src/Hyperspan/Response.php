@@ -90,6 +90,17 @@ class Response
     }
 
     /**
+     * Remove link with name
+     */
+    public function removeLink($rel)
+    {
+        if(isset($this->_links[$rel])) {
+            unset($this->_links[$rel]);
+        }
+        return $this;
+    }
+
+    /**
      * Get array of actions
      *
      * @return array
@@ -105,6 +116,17 @@ class Response
     public function addAction($name, array $action)
     {
         $this->_actions[$name] = $action;
+        return $this;
+    }
+
+    /**
+     * Remove action with name
+     */
+    public function removeAction($name)
+    {
+        if(isset($this->_actions[$name])) {
+            unset($this->_actions[$name]);
+        }
         return $this;
     }
 
