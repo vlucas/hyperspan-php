@@ -4,7 +4,7 @@ namespace Hyperspan;
 /**
  * Hyperspan Response Builder
  */
-class Response
+class Response implements \ArrayAccess
 {
     protected $_data = array();
     protected $_properties = array();
@@ -26,6 +26,35 @@ class Response
     public function __get($name)
     {
         return $this->_data[$name];
+    }
+
+    /**
+     * ArrayAccess implementation
+     *
+     * Allows easy access to set properties
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->_properties[] = $value;
+        } else {
+            $this->_properties[$offset] = $value;
+        }
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->_properties[$offset]);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->_properties[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->_properties[$offset]) ? $this->_properties[$offset] : null;
     }
 
     /**
