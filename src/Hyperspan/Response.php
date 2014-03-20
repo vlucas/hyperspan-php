@@ -119,6 +119,17 @@ class Response implements \ArrayAccess
     }
 
     /**
+     * Get link with name
+     */
+    public function getLink($rel)
+    {
+        if(isset($this->_links[$rel])) {
+            return $this->_links[$rel];
+        }
+        return false;
+    }
+
+    /**
      * Remove link with name
      */
     public function removeLink($rel)
@@ -146,6 +157,17 @@ class Response implements \ArrayAccess
     {
         $this->_actions[$name] = $action;
         return $this;
+    }
+
+    /**
+     * Get action with name
+     */
+    public function getAction($name)
+    {
+        if(isset($this->_actions[$name])) {
+            return $this->_actions[$name];
+        }
+        return false;
     }
 
     /**
