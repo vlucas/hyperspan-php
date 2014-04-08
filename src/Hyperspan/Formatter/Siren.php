@@ -18,25 +18,27 @@ class Siren extends Base
             $res['properties'] = $props;
         }
 
-        if($items = $this->_response->getItems()) {
+        if($keys = $this->_response->getItems()) {
             $res['entities'] = array();
-            foreach($items as $item) {
-                if($item instanceof Response) {
-                    $itemRes = new self($item);
-                    $item = $itemRes->toArray();
-                } elseif(is_array($item)) {
-                    // Assume entity properties if raw array with no 'properties' key
-                    if(!isset($item['properties'])) {
-                        $item = array('properties' => $item);
+            foreach($keys as $key => $items) {
+                foreach($items as $item) {
+                    if($item instanceof Response) {
+                        $itemRes = new self($item);
+                        $item = $itemRes->toArray();
+                    } elseif(is_array($item)) {
+                        // Assume entity properties if raw array with no 'properties' key
+                        if(!isset($item['properties'])) {
+                            $item = array('properties' => $item);
+                        }
+                    } else {
+                        throw new \InvalidArgumentException("Argument 1 passed to " . __METHOD__ . " must be of the type array or " . __CLASS__ . ", " . gettype($item) . " given");
                     }
-                } else {
-                    throw new \InvalidArgumentException("Argument 1 passed to " . __METHOD__ . " must be of the type array or " . __CLASS__ . ", " . gettype($item) . " given");
+                    $res['entities'][] = $item;
                 }
-                $res['entities'][] = $item;
             }
         }
 
-        if($actions = $this->_response->getActions()) {
+        if($actions = $this->_response->getForms()) {
             $res['actions'] = array();
             foreach($actions as $name => $action) {
                 $res['actions'][] = array_merge(array('name' => $name), $action);

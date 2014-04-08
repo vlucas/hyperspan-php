@@ -122,10 +122,10 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $format->toArray());
     }
 
-    public function testAddAction()
+    public function testAddForm()
     {
         $res = new Response();
-        $res->addAction('add-item', array(
+        $res->addForm('add-item', array(
             'title' => 'Add Item',
             'method' => 'POST',
             'href' => '/post'
@@ -149,17 +149,17 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
     public function testRemoveAction()
     {
         $res = new Response();
-        $res->addAction('add-item', array(
+        $res->addForm('add-item', array(
             'title' => 'Add Item',
             'method' => 'POST',
             'href' => '/post'
         ));
-        $res->addAction('delete-item', array(
+        $res->addForm('delete-item', array(
             'title' => 'Delete Item',
             'method' => 'DELETE',
             'href' => '/post/123'
         ));
-        $res->removeAction('delete-item');
+        $res->removeForm('delete-item');
 
         $expected = array(
             'actions' => array(
@@ -179,7 +179,7 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
     public function testAddItem()
     {
         $res = new Response();
-        $res->addItem(array(
+        $res->addItem('item', array(
             'some' => 'value',
             'something' => 'else',
             'another' => 'one'
@@ -210,7 +210,7 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
             ->addLink('self', '/test');
 
         $res2 = clone $res;
-        $res2->addItem($res);
+        $res2->addItem('item', $res);
 
         $expected = array(
             'properties' => array(
