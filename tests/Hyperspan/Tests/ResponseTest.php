@@ -17,17 +17,17 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($url, $link);
     }
 
-    public function testGetActionByRel()
+    public function testGetFormByRel()
     {
-        $action = array(
+        $form = array(
             'method' => 'get',
             'href' => 'http://placekitten.com/200/300'
         );
         $res = new Response();
-        $res->addAction('kitten', $action);
+        $res->addForm('kitten', $form);
 
-        $actionResult = $res->getAction('kitten');
-        $this->assertEquals($action, $actionResult);
+        $formResult = $res->getForm('kitten');
+        $this->assertEquals($form, $formResult);
     }
 }
 

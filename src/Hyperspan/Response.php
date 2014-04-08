@@ -9,8 +9,9 @@ class Response implements \ArrayAccess
     protected $_data = array();
     protected $_properties = array();
     protected $_links = array();
-    protected $_actions = array();
+    protected $_forms = array();
     protected $_items = array();
+    protected $_itemsOptions = array();
 
     /**
      * Set base property
@@ -145,27 +146,27 @@ class Response implements \ArrayAccess
      *
      * @return array
      */
-    public function getActions()
+    public function getForms()
     {
-        return $this->_actions;
+        return $this->_forms;
     }
 
     /**
-     * Add action with name and URL
+     * Add form with name and array
      */
-    public function addAction($name, array $action)
+    public function addForm($name, array $form)
     {
-        $this->_actions[$name] = $action;
+        $this->_forms[$name] = $form;
         return $this;
     }
 
     /**
      * Get action with name
      */
-    public function getAction($name)
+    public function getForm($name)
     {
-        if(isset($this->_actions[$name])) {
-            return $this->_actions[$name];
+        if(isset($this->_forms[$name])) {
+            return $this->_forms[$name];
         }
         return false;
     }
@@ -173,31 +174,77 @@ class Response implements \ArrayAccess
     /**
      * Remove action with name
      */
-    public function removeAction($name)
+    public function removeForm($name)
     {
-        if(isset($this->_actions[$name])) {
-            unset($this->_actions[$name]);
+        if(isset($this->_forms[$name])) {
+            unset($this->_forms[$name]);
         }
         return $this;
     }
 
     /**
-     * Get array of items/entities
+     * Get array of embeded items/entities
      *
      * @return array
      */
-    public function getItems()
+    public function getItems($name = null)
     {
+        if($name !== null) {
+            if(isset($this->_items[$name])) {
+                return $this->_items[$name];
+            }
+            return array();
+        }
         return $this->_items;
     }
 
     /**
      * Add item to collection
      */
-    public function addItem($item)
+    public function addItem($name, $item, array $options = array())
     {
-        $this->_items[] = $item;
+        $this->_items[$name][] = $item;
+        if(!empty($options)) {
+            $this->setItemOptions($name, $options);
+        }
         return $this;
+    }
+
+    /**
+     * Remove items with name
+     */
+    public function removeItems($name)
+    {
+        if(isset($this->_items[$name])) {
+            unset($this->_items[$name]);
+        }
+        return $this;
+    }
+
+    /**
+     * Set Items Options
+     *
+     * @param string $name Name/key of items
+     * @return self
+     */
+    public function setItemOptions($name, array $options)
+    {
+        $this->_itemsOptions[$name] = $options;
+        return $this;
+    }
+
+    /**
+     * Get Items Options
+     *
+     * @param string $name Name/key of items
+     * @return array
+     */
+    public function getItemOptions($name)
+    {
+        if(isset($this->_itemsOptions[$name])) {
+            return $this->_itemsOptions[$name];
+        }
+        return array();
     }
 }
 
