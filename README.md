@@ -23,14 +23,73 @@ to build an API response with specific attributes and types of data, and
 `Hyperspan\Formatter`, which is used to output the data in a sepcific
 Hypermedia API response format.
 
-**NOTE** Currently, the only supported format in Hyperspan is
-[Siren](https://github.com/kevinswiber/siren). More formats will be added as
-development progresses, specifically
-[Collection+JSON](http://amundsen.com/media-types/collection/) and
-[HAL](http://stateless.co/hal_specification.html).
+Supported Hypermedia Formats
+----------------------------
 
-Usage
------
+ * [HAL](http://stateless.co/hal_specification.html) (+forms)
+ * [Siren](https://github.com/kevinswiber/siren)
+
+HAL JSON Usage
+----------------
+
+The following code:
+```php
+$res = new Hyperspan\Response();
+$res->setProperties(array(
+        'foo' => 'bar',
+        'bar' => 'baz'
+    ));
+    ->addLink('self', 'http://localhost/foo/bar');
+    ->addForm('add-item', array(
+        'method' => 'POST',
+        'href' => '/items',
+        'fields' => array(
+            'name' => array('type' => 'string'),
+            'body' => array('type' => 'text')
+        )
+    ))
+    ->addItem('item', array(
+        'some' => true,
+        'something' => 'else',
+        'three' => 3
+    ));
+
+$format = new Hyperspan\Formatter\Hal($res);
+
+header('Content-Type', 'application/hal+json');
+echo $format->toJson();
+```
+
+Will output the following JSON structure in [HAL](http://stateless.co/hal_specification.html).
+```
+{
+  "foo": "bar",
+  "bar": "baz",
+  "_embedded": {
+    "item": {
+      "some": true,
+      "something": "else",
+      "three": 3
+    }
+  ],
+  "_forms": [
+    "add-item": {
+      "method": "POST",
+      "href": "/items",
+      "fields": [
+        "name": { "type": "string" },
+        "body": { "type": "text" }
+      ]
+    }
+  ],
+  "_links": [
+    "self": { "href": "http://localhost/foo/bar" }
+  ]
+}
+```
+
+Siren JSON Usage
+----------------
 
 The following code:
 ```php
@@ -41,7 +100,7 @@ $res->setProperties(array(
         'bar' => 'baz'
     ));
     ->addLink('self', 'http://localhost/foo/bar');
-    ->addAction('add-item', array(
+    ->addForm('add-item', array(
         'title' => 'Add Item',
         'method' => 'POST',
         'href' => '/items',
@@ -50,7 +109,7 @@ $res->setProperties(array(
             array('name' => 'body', 'type' => 'text')
         )
     ))
-    ->addItem(array(
+    ->addItem('item', array(
         'some' => true,
         'something' => 'else',
         'three' => 3
