@@ -331,16 +331,17 @@ class ResponseHalTest extends \PHPUnit_Framework_TestCase
         $res2->addItem('item', $res);
 
         $expected = array(
-            'foo' => 'bar',
             '_links' => array(
                 'self' => array(
                     'href' => '/test'
                 )
-            )
+            ),
+            'foo' => 'bar'
         );
         $expected['_embedded']['item'] = $expected;
 
         $format = new Formatter\Hal($res2);
+        $actual = $format->toArray();
         $this->assertEquals($expected, $format->toArray());
     }
 }

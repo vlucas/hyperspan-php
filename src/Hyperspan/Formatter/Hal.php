@@ -14,9 +14,24 @@ class Hal extends Base
     {
         $res = array();
 
-        // Properties
-        if($props = $this->_response->getProperties()) {
-            $res = $props;
+        // Links
+        if($links = $this->_response->getLinks()) {
+            $res['_links'] = array();
+            foreach($links as $rel => $link) {
+                if(is_array($link)) {
+                    $res['_links'][$rel] = $link;
+                } else {
+                    $res['_links'][$rel] = array('href' => $link);
+                }
+            }
+        }
+
+        // Forms
+        if($forms = $this->_response->getForms()) {
+            $res['_forms'] = array();
+            foreach($forms as $name => $form) {
+                $res['_forms'][$name] = $form;
+            }
         }
 
         // Embedded items
@@ -51,24 +66,9 @@ class Hal extends Base
             }
         }
 
-        // Forms
-        if($forms = $this->_response->getForms()) {
-            $res['_forms'] = array();
-            foreach($forms as $name => $form) {
-                $res['_forms'][$name] = $form;
-            }
-        }
-
-        // Links
-        if($links = $this->_response->getLinks()) {
-            $res['_links'] = array();
-            foreach($links as $rel => $link) {
-                if(is_array($link)) {
-                    $res['_links'][$rel] = $link;
-                } else {
-                    $res['_links'][$rel] = array('href' => $link);
-                }
-            }
+        // Properties
+        if($props = $this->_response->getProperties()) {
+            $res = array_merge($res, $props);
         }
 
         // Custom set data overrides everything else
