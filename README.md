@@ -38,7 +38,7 @@ $res = new Hyperspan\Response();
 $res->setProperties(array(
         'foo' => 'bar',
         'bar' => 'baz'
-    ));
+    ))
     ->addLink('self', 'http://localhost/foo/bar');
     ->addForm('add-item', array(
         'method' => 'POST',
@@ -98,7 +98,7 @@ $res->title = 'Siren Sample JSON Response with Hyperspan';
 $res->setProperties(array(
         'foo' => 'bar',
         'bar' => 'baz'
-    ));
+    ))
     ->addLink('self', 'http://localhost/foo/bar');
     ->addForm('add-item', array(
         'title' => 'Add Item',
