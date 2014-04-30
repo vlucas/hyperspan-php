@@ -3,8 +3,7 @@ Hyperspan
 
 Build a Hypermedia API response once in code and return it in multiple formats
 
-**NOTE:** Currently in heavy active development, and only supports
-[Siren](https://github.com/kevinswiber/siren)
+**NOTE:** Currently in heavy active development, and some things may change, so be sure to version lock for stability.
 
 Installation
 ------------
