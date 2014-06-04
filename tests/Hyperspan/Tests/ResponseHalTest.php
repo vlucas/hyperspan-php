@@ -341,7 +341,53 @@ class ResponseHalTest extends \PHPUnit_Framework_TestCase
         $expected['_embedded']['item'] = $expected;
 
         $format = new Formatter\Hal($res2);
-        $actual = $format->toArray();
+        $this->assertEquals($expected, $format->toArray());
+    }
+
+    public function testSetItemsIsCollection()
+    {
+        $res = new Response();
+        $res->setItems('items', array(
+            array(
+                'some' => 'value',
+                'something' => 'else',
+                'another' => 'one'
+            ), array(
+                'some' => 'value2',
+                'something' => 'else2',
+                'another' => 'two'
+            )
+        ));
+
+        $res->setItems('users', array(array(
+            'name' => 'Chester Tester',
+            'username' => 'test'
+        )));
+
+        $expected = array(
+            '_embedded' => array(
+                'items' => array(
+                    array(
+                        'some' => 'value',
+                        'something' => 'else',
+                        'another' => 'one'
+                    ),
+                    array(
+                        'some' => 'value2',
+                        'something' => 'else2',
+                        'another' => 'two'
+                    )
+                ),
+                'users' => array(
+                    array(
+                        'name' => 'Chester Tester',
+                        'username' => 'test'
+                    )
+                )
+            )
+        );
+
+        $format = new Formatter\Hal($res);
         $this->assertEquals($expected, $format->toArray());
     }
 }

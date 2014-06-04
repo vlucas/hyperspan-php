@@ -228,5 +228,43 @@ class ResponseSirenTest extends \PHPUnit_Framework_TestCase
         $format = new Formatter\Siren($res2);
         $this->assertEquals($expected, $format->toArray());
     }
+
+    public function testSetItemsIsCollection()
+    {
+        $res = new Response();
+        $res->setItems('items', array(
+            array(
+                'some' => 'value',
+                'something' => 'else',
+                'another' => 'one'
+            ), array(
+                'some' => 'value2',
+                'something' => 'else2',
+                'another' => 'two'
+            )
+        ));
+
+        $expected = array(
+            'entities' => array(
+                array(
+                    'properties' => array(
+                        'some' => 'value',
+                        'something' => 'else',
+                        'another' => 'one'
+                    )
+                ),
+                array(
+                    'properties' => array(
+                        'some' => 'value2',
+                        'something' => 'else2',
+                        'another' => 'two'
+                    )
+                )
+            )
+        );
+
+        $format = new Formatter\Siren($res);
+        $this->assertEquals($expected, $format->toArray());
+    }
 }
 

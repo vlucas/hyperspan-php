@@ -200,6 +200,12 @@ class Response implements \ArrayAccess
 
     /**
      * Add item to collection
+     *
+     * @param string $name Lowercase name of the item collection
+     * @param array  $item Single item to add to collection
+     * @param array  $options Array of options to pass to collection
+     *
+     * @return self
      */
     public function addItem($name, $item, array $options = array())
     {
@@ -207,6 +213,22 @@ class Response implements \ArrayAccess
         if(!empty($options)) {
             $this->setItemOptions($name, $options);
         }
+        return $this;
+    }
+
+    /**
+     * Set group of items as collection
+     *
+     * @param string $name Lowercase name of the item collection
+     * @param array  $items Array of items to set as collection
+     * @param array  $options Array of options to pass to collection
+     *
+     * @return self
+     */
+    public function setItems($name, array $items, array $options = array('collection' => true))
+    {
+        $this->_items[$name] = $items;
+        $this->setItemOptions($name, $options);
         return $this;
     }
 
