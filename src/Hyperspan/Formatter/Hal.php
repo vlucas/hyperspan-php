@@ -14,6 +14,11 @@ class Hal extends Base
     {
         $res = array();
 
+        // Properties
+        if($props = $this->_response->getProperties()) {
+            $res = $props;
+        }
+
         // Links
         if($links = $this->_response->getLinks()) {
             $res['_links'] = array();
@@ -64,11 +69,6 @@ class Hal extends Base
                     }
                 }
             }
-        }
-
-        // Properties
-        if($props = $this->_response->getProperties()) {
-            $res = array_merge($res, $props);
         }
 
         // Custom set data overrides everything else
