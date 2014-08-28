@@ -95,6 +95,32 @@ class ResponseHalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $format->toArray());
     }
 
+    public function testAddLinkWithProperties()
+    {
+        $res = new Response();
+        $res->setProperties(array(
+            'title' => 'Add Item',
+            'foo' => 'bar',
+            'bar' => 'baz'
+        ));
+
+        $res->addLink('self', 'http://localhost/foo/bar');
+
+        $expected = array(
+            'title' => 'Add Item',
+            'foo' => 'bar',
+            'bar' => 'baz',
+            '_links' => array(
+                'self' => array(
+                    'href' => 'http://localhost/foo/bar'
+                )
+            )
+        );
+
+        $format = new Formatter\Hal($res);
+        $this->assertSame($expected, $format->toArray());
+    }
+
     public function testRemoveLink()
     {
         $res = new Response();
